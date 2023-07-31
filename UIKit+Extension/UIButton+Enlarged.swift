@@ -46,7 +46,7 @@ extension UIButton {
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let rect = dy_enlargedRect();//获得了获得新范围的CGRect
         
-        if (CGRectEqualToRect(rect, self.bounds))  //如果没有增加点击范围就调用super 看看点击范围是不是在父控件上
+        if CGRectEqualToRect(rect, self.bounds) || self.isHidden == true  //如果没有增加点击范围就调用super 看看点击范围是不是在父控件上
         {
             return super.hitTest(point, with: event)
         }
