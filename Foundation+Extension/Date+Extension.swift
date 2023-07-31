@@ -95,7 +95,6 @@ extension Date {
 }
 
 extension Date {
-    
     static var todayTimestamp: UInt64 {
         return UInt64(Date().timeIntervalSince1970 * 1_000)
     }
