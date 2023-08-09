@@ -210,6 +210,10 @@ extension String {
         return filter.count
     }
     
+    var int: Int {
+        return Int(self) ?? 0
+    }
+    
     func doubleValue() -> Double {
         var value: Double = 0
         if let a = Double(self) {
