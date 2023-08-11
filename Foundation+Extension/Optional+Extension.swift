@@ -180,6 +180,27 @@ extension Optional where Wrapped == String {
     func orEmptyContent() -> String {
         return checkStringAvailable(self) ? self! : ""
     }
+    
+    func intValue() -> Int {
+        guard let value = self else {
+            return 0
+        }
+        return Int(value) ?? 0
+    }
+    
+    public func toPrice() -> String{
+        guard let value = self else {
+            return "0"
+        }
+        if self == "0" { return "0" }
+        guard let money = Double(value) else { return "0" }
+        let tempMoney = money / 100
+        if String(tempMoney).contains(".00") || String(tempMoney).hasSuffix(".0") {
+            return String(format: "%.0f", tempMoney)
+        } else {
+            return String(format: "%.2f", tempMoney)
+        }
+    }
 }
 
 extension Optional where Wrapped == Array<Any> {
