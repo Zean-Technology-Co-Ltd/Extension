@@ -39,8 +39,4 @@ extension UIViewController {
             }
         }
     }
-    
-    func resetPopAction(selector: Selector) {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: R.image.common_arrow_pop_icon(), style: .plain, target: self, action: selector)
-    }
 }
