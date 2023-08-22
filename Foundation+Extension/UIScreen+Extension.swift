@@ -9,29 +9,39 @@ import UIKit
 
 extension UIApplication {
     internal var nn_keyWindow: UIWindow? {
-        if #available(iOS 13.0, *) {
-            let windows = UIApplication.shared.connectedScenes.compactMap { screen -> UIWindow? in
-                guard let wc = screen as? UIWindowScene, wc.activationState == .foregroundActive else {
-                    return nil
-                }
-                if let s = wc.delegate as? UIWindowSceneDelegate {
-                    return s.window ?? nil
-                }
-                if #available(iOS 15.0, *) {
-                    return wc.keyWindow
-                }
-                return wc.windows.filter { $0.isKeyWindow }.first
+        if #available(iOS 14.0, *) {
+            if let window = UIApplication.shared.connectedScenes.map({$0 as? UIWindowScene}).compactMap({$0}).first?.windows.first {
+                return window
+            } else if let window = UIApplication.shared.delegate?.window {
+                return window
+            } else {
+                return nil
             }
-            return windows.first
+        } else if #available(iOS 13.0, *) {
+            if let window = UIApplication.shared.connectedScenes
+                .filter({$0.activationState == .foregroundActive})
+                .map({$0 as? UIWindowScene})
+                .compactMap({$0})
+                .first?.windows
+                .filter({$0.isKeyWindow}).first{
+                return window
+            } else if let window = UIApplication.shared.delegate?.window {
+                return window
+            } else {
+                return nil
+            }
         } else {
-            return keyWindow
+            if let window = UIApplication.shared.delegate?.window {
+                return window
+            }else{
+                return nil
+            }
         }
     }
 }
 
-
 extension UIScreen {
-
+    
     @objc static var screenWidth: CGFloat {
         return UIScreen.main.bounds.size.width
     }
@@ -43,7 +53,7 @@ extension UIScreen {
     @objc static var screenBounds: CGRect {
         return UIScreen.main.bounds
     }
-
+    
     @objc static var isIphoneX: Bool {
         if #available(iOS 13.0, *){
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return false }
@@ -62,7 +72,7 @@ extension UIScreen {
     @objc static var safeAreaTopPadding: CGFloat {
         return UIScreen.isIphoneX ? 44:20
     }
-
+    
     @objc static var safeAreaBottomPadding: CGFloat {
         return UIScreen.isIphoneX ? 34:0
     }
