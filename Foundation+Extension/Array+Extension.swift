@@ -85,6 +85,12 @@ extension Array where Element: Hashable {
 
 extension Array where Element: Equatable {
     
+    mutating func removeVC(_ targetVC: Element) {
+        self.remove { vc in
+            vc == targetVC
+        }
+    }
+    
     mutating func remove(_ predicate:(Element) -> Bool) {
         let toRemove = filter { (ele) -> Bool in
             return predicate(ele)
