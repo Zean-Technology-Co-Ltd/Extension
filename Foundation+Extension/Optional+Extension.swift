@@ -188,6 +188,14 @@ extension Optional where Wrapped == String {
         return Int(value) ?? 0
     }
     
+    public func strLength() -> Int {
+        if let text = self {
+            return text.length
+        } else {
+            return 0
+        }
+    }
+    
     public func toPrice() -> String{
         guard let value = self else {
             return "0"
